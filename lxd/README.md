@@ -2,6 +2,12 @@
 
 ### Using the provided Makefile
 
+Configure a bridge called `br0`.
+
+It must be active as a `dnsmasq` instance will launch and bind to it.
+
+Then:
+
 ```bash
 make all
 ```
@@ -106,11 +112,18 @@ lxc config set images.remote_cache_expiry 30
 lxc config set images.auto_update_interval 30
 ```
 
-### Limits container
+### Limit container ressources
 
 ```bash
 lxc config set <container> limits.memory.enforce soft
-lxc config set <container> limits.memory 8%
+lxc config set <container> limits.memory 9%
+```
+
+But you can add this to the default profile
+
+```bash
+lxc profile set default limits.memory.enforce soft
+lxc profile set default limits.memory 9%
 ```
 
 ## Network management
