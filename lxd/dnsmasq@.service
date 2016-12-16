@@ -4,15 +4,18 @@ After=network.target
 Documentation=man:dnsmasq(8)
 
 [Service]
+# Type=dbus
+# BusName=uk.org.thekelleys.dnsmasq-lxd
 ExecStartPre=/usr/sbin/dnsmasq --test -C /etc/dnsmasq-%i.conf
 
 ExecStart=/usr/sbin/dnsmasq -k -C /etc/dnsmasq-%i.conf \
                         --user=dnsmasq  \
                         --group=dnsmasq \
-                        --interface=%i          \
+                        --bind-interfaces       \
                         --dhcp-no-override      \
                         --pid-file=/run/dnsmasq-%i.pid  \
                         --dhcp-leasefile=/run/dnsmasq-%i.leases \
+                        --dhcp-authoritative \
 
 ExecReload=/bin/kill -HUP $MAINPID
 
