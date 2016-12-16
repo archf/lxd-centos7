@@ -1,0 +1,20 @@
+[Unit]
+Description=%i dnsmasq instance for LXD
+After=network.target
+Documentation=man:dnsmasq(8)
+
+[Service]
+ExecStartPre=/usr/sbin/dnsmasq --test -C /etc/dnsmasq-%i.conf
+
+ExecStart=/usr/sbin/dnsmasq -k -C /etc/dnsmasq-%i.conf \
+                        --user=dnsmasq  \
+                        --group=dnsmasq \
+                        --interface=%i          \
+                        --dhcp-no-override      \
+                        --pid-file=/run/dnsmasq-%i.pid  \
+                        --dhcp-leasefile=/run/dnsmasq-%i.leases \
+
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

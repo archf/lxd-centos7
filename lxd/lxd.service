@@ -1,0 +1,10 @@
+[Unit]
+Description=LXC hypervisor.
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/lxd --group lxd
+
+[Install]
+WantedBy=multi-user.target
